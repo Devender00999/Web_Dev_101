@@ -54,12 +54,16 @@ h2 {
 /* Title Image */
 .title-image{
     width: 60%;
+    position: absolute;
     transform: rotate(25deg);
+    right: 30%;
 }
 
 /* Feature Section */
 #features{
+    background-color: #fff;
     padding: 7% 15%;
+    position: relative;
 }
 .feature{
     display: flex;
@@ -117,4 +121,15 @@ h2 {
 .press-logo{
     width: 15%;
     margin: 20px 20px 50px;
+}
+
+/* Pricing Section */
+
+#pricing{
+    padding: 100px;
+    text-align: center;
+}
+.pricing-column{
+    padding: 3% 2%;
+
 }
