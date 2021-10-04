@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
     process.env.API_KEY;
   https.get(url, (response) => {
     console.log(response);
-    res.send("Hello World!!");
+    res.send("Hello World!");
   });
 });
 
