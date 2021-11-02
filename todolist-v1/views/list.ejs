@@ -1,22 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo List</title>
-</head>
-<body>
-        <h1><%= dayName %>!</h1>
-        <ul>
+<%- include("header") -%>
+<div class="box" id="heading">
+  <h1><%= listTitle %></h1>
+</div>
+<div class="box">
+  <form action="/" method="POST" class="item">
+    <input
+      type="text"
+      name="newTask"
+      placeholder="New Task"
+      required
+      autocomplete="off"
+    />
+    <button type="submit" name="list" value=<%=listTitle%>>+</button>
+  </form>
+  <% for (let i=0; i < newTask.length; i++){ %>
+  <div class="item">
+    <input type="checkbox" name="" id="" />
+    <p><%= newTask[i] %></p>
+  </div>
+  <% } %>
+  
+</div>
 
-            <% for (let i=0; i < newTask.length; i++){ %>
-                <li><%= newTask[i] %></li>
-            <% } %>
-        </ul>
-        <form action="/" method="POST">
-            <input type="text" name="newTask" required>
-            <input type="submit" value="Add">
-        </form>
-</body>
-</html>
+<%- include("footer") -%>
