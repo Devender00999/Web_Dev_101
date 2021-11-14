@@ -28,6 +28,10 @@
 	background-color: #1abc9c;
 }
 
+body{
+    position: relative;
+    min-height: 100vh;
+}
 .footer p {
 	margin-top: 25px;
 	font-size: 12px;
