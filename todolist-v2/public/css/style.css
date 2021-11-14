@@ -31,9 +31,9 @@ html {
     border-bottom: 1px solid #F1F1F1;
   }
   
-  .item:last-child {
+  /* .item:last-child {
     border-bottom: 0;
-  }
+  } */
   
   input:checked+p {
     text-decoration: line-through;
@@ -44,7 +44,7 @@ html {
     margin: 20px;
   }
   
-  p {
+  .todo {
     margin: 0;
     padding: 20px;
     font-size: 20px;
