@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "mongoose": "^6.0.12"
+    "mongoose": "^6.0.12",
+    "mongoose-encryption": "^2.1.2"
   }
 }

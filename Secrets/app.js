@@ -1,8 +1,9 @@
 //imported modules
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-
+const encrypt = require("mongoose-encryption");
 //creating and configuring server app using express
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,7 +18,7 @@ mongoose.connect("mongodb://localhost:27017/userDB", function (err) {
 
 // defining collection model and schema
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -27,7 +28,10 @@ const userSchema = mongoose.Schema({
     required: true,
   },
 });
-
+userSchema.plugin(encrypt, {
+  secret: process.env.SECRET,
+  encryptedFields: ["password"],
+});
 const User = new mongoose.model("users", userSchema);
 
 // home route
@@ -45,7 +49,6 @@ app.post("/login", (req, res) => {
     if (!err) {
       if (data) {
         if (data.password === password) {
-          console.log(data);
           res.render("secrets");
         }
       }
