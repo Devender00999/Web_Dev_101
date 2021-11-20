@@ -3,13 +3,14 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const md5 = require("md5");
+const bcrypt = require("bcrypt");
+
 //creating and configuring server app using express
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-
+const round = 10;
 // setting up databases
 mongoose.connect("mongodb://localhost:27017/userDB", function (err) {
   if (err) console.log("Mongo Server is not started.");
@@ -41,13 +42,17 @@ app.get("/login", (req, res) => {
 });
 app.post("/login", (req, res) => {
   const username = req.body.username;
-  const password = md5(req.body.password);
+  const password = req.body.password;
   User.findOne({ email: username }, (err, data) => {
     if (!err) {
       if (data) {
-        if (data.password === password) {
-          res.render("secrets");
-        }
+        bcrypt.compare(password, data.password, function (err, result) {
+          if (!err) {
+            res.render("secrets");
+          } else {
+            res.send("Wrong ID or Pass");
+          }
+        });
       }
     }
   });
@@ -58,16 +63,26 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 app.post("/register", (req, res) => {
-  const user = new User({
-    email: req.body.username,
-    password: md5(req.body.password),
-  });
-  user.save((err) => {
-    if (!err) {
-      console.log("User added");
-      res.redirect("/secrets");
-    } else console.log("Some error occured");
-  });
+  bcrypt.hash(
+    req.body.password,
+    Number(process.env.SALTROUND),
+    function (err, hash) {
+      if (!err) {
+        const user = new User({
+          email: req.body.username,
+          password: hash,
+        });
+        user.save((err) => {
+          if (!err) {
+            console.log("User added");
+            res.redirect("/secrets");
+          } else console.log("Some error occured");
+        });
+      } else {
+        console.log("Error in generating hash: " + err);
+      }
+    }
+  );
 });
 
 app.get("/logout", (req, res) => {
